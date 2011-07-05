@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Details:</b>
+  <%= @deal.details %>
+</p>
+
+<p>
+  <b>Org:</b>
+  <%= @deal.org_id %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @deal.category_id %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @deal.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @deal.end_date %>
+</p>
+
+<p>
+  <b>Is local:</b>
+  <%= @deal.is_local %>
+</p>
+
+<p>
+  <b>Is state:</b>
+  <%= @deal.is_state %>
+</p>
+
+<p>
+  <b>Is national:</b>
+  <%= @deal.is_national %>
+</p>
+
+
+<%= link_to 'Edit', edit_deal_path(@deal) %> |
+<%= link_to 'Back', deals_path %>

@@ -1,0 +1,44 @@
+<h1>Listing orgs</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Zipcode</th>
+    <th>Address</th>
+    <th>Category</th>
+	<th>Twitter Handle</th>
+	<th>Phone</th>
+	<th>Email</th>
+	<th>Website</th>
+	<th>Notes</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @orgs.each do |org| %>
+  <tr>
+    <td><%= org.name %></td>
+    <td><%= org.city %></td>
+    <td><%= org.state %></td>
+    <td><%= org.zipcode %></td>
+    <td><%= org.address %></td>
+    <td><%= Category.find_by_id(org.category_id).name %></td>
+	<td><%= org.handle %></td>
+	<td><%= org.primary_number %></td>
+	<td><%= org.primary_email %></td>
+	<td><%= org.website %></td>
+	<td><%= org.notes %></td>
+    <td><%= link_to 'Show', org %></td>
+    <td><%= link_to 'Edit', edit_org_path(org) %></td>
+    <td><%= link_to 'Destroy', org, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Org', new_org_path %>

@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @org.name %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @org.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @org.state %>
+</p>
+
+<p>
+  <b>Zipcode:</b>
+  <%= @org.zipcode %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @org.address %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= Category.find_by_id(@org.category_id).name %>
+</p>
+
+<p>
+  <b>Twitter Handle:</b>
+  <%= @org.handle %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @org.primary_number %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @org.primary_email %>
+</p>
+
+<p>
+  <b>Website:</b>
+  <%= @org.website %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @org.notes %>
+</p>
+
+<%= link_to 'Edit', edit_org_path(@org) %> |
+<%= link_to 'Back', orgs_path %>

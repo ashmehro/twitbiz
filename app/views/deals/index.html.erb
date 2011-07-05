@@ -1,0 +1,37 @@
+<h1>Listing deals</h1>
+
+<table>
+  <tr>
+    <th>Details</th>
+    <th>Org</th>
+    <th>Category</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Is local</th>
+    <th>Is state</th>
+    <th>Is national</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @deals.each do |deal| %>
+  <tr>
+    <td><%= deal.details %></td>
+    <td><%= deal.org_id %></td>
+    <td><%= deal.category_id %></td>
+    <td><%= deal.start_date %></td>
+    <td><%= deal.end_date %></td>
+    <td><%= deal.is_local %></td>
+    <td><%= deal.is_state %></td>
+    <td><%= deal.is_national %></td>
+    <td><%= link_to 'Show', deal %></td>
+    <td><%= link_to 'Edit', edit_deal_path(deal) %></td>
+    <td><%= link_to 'Destroy', deal, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Deal', new_deal_path %>

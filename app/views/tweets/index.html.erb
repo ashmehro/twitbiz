@@ -1,0 +1,39 @@
+<h1>Listing tweets</h1>
+
+<table>
+  <tr>
+    <th>Deal</th>
+    <th>Tweet</th>
+    <th>Screen name</th>
+    <th>Real name</th>
+    <th>Level</th>
+    <th>Deal used</th>
+    <th>Url</th>
+    <th>Data</th>
+    <th>Comments</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tweets.each do |tweet| %>
+  <tr>
+    <td><%= tweet.deal_id %></td>
+    <td><%= tweet.tweet_id %></td>
+    <td><%= tweet.screen_name %></td>
+    <td><%= tweet.real_name %></td>
+    <td><%= tweet.level %></td>
+    <td><%= tweet.deal_used %></td>
+    <td><%= tweet.url %></td>
+    <td><%= tweet.data %></td>
+    <td><%= tweet.comments %></td>
+    <td><%= link_to 'Show', tweet %></td>
+    <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+    <td><%= link_to 'Destroy', tweet, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tweet', new_tweet_path %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  twitter_id: 
+  twitter_handle: MyString
+  full_name: MyString
+  auth_token: MyString
+  auth_token_secret: MyString
+  profile_image_url: MyString
+
+two:
+  name: MyString
+  twitter_id: 
+  twitter_handle: MyString
+  full_name: MyString
+  auth_token: MyString
+  auth_token_secret: MyString
+  profile_image_url: MyString

@@ -1,0 +1,13 @@
+<% for (var i=0; i<data.length; i++) {
+	elem = data[i];%>
+<div class="cell-inner">
+	<div class="cell-left"></div>
+	<div class="cell-main">
+	    <%=elem["id"]%><br/>
+		<%=elem["name"]%><br/>
+		<%=elem["title"]%><br/>
+		<%=elem["email"]%><br/>
+		<%=elem["phone"]%>
+	</div>
+</div>
+<%}%>

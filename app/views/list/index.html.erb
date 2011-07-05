@@ -1,0 +1,251 @@
+<HEAD>
+	<TITLE>Layout Example</TITLE>
+	<link type="text/css" rel="stylesheet" href="/stylesheets/layout-default-latest.css" />
+	<link rel="stylesheet" href="/stylesheets/slick.grid.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/stylesheets/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/stylesheets/slick-examples.css" type="text/css" media="screen" charset="utf-8" />
+	<style type="text/css">
+		html, body {
+		background:	#666;
+		width:		100%;
+		height:		100%;
+		padding:	0;
+		margin:		0;
+		overflow:	auto; /* when page gets too small */
+		}
+		#container {
+		background:	777;
+		/* HEIGHT */
+		height:		100%;
+		min-height:	300px;
+		_height:	300px; /* min-height for IE6 */
+		/* WIDTH */
+		width:		100%;
+		max-width:	900px;
+		min-width:	700px;
+		_width:		700px; /* min-width for IE6 */
+		/* HORIZONTAL CENTERING */
+		margin:		0 auto;
+		}
+		/*
+		*	Container sizing
+		*
+		*	Borders and padding are normally *added* to the width/height of the DIV
+		*	However you can get height:100% AND padding/borders by using a nested layout.
+		*	The outer-layout is just a single pane: center, which is where you add your vertical padding.
+		*	Inside this is your *real layout*.
+		*/
+		#paddingWrapper {
+		background:	#999;
+		padding:	20px 10px;
+		border:		4px solid #BBB;
+		}
+		.pane {
+		display:	none; /* will appear when layout inits */
+		}
+		.slick-cell {
+		background: white!important;
+		border-color: transparent!important;
+		line-height: 19px!important;
+		}
+
+		/* alternating offsets */
+		.slick-row .cell-inner {
+		margin-right: 60px;
+		}
+
+		.slick-row[row$="1"] .cell-inner,  .slick-row[row$="3"] .cell-inner,  .slick-row[row$="5"] .cell-inner,
+		.slick-row[row$="7"] .cell-inner, .slick-row[row$="9"] .cell-inner {
+		margin-left: 60px;
+		margin-right: 0;
+		}
+
+		.contact-card-cell {
+		border-color: transparent!important;
+		}
+
+		.cell-inner {
+		height: 25px;
+		margin: 10px;
+		padding: 10px;
+		background: #fafafa;
+		border: 1px solid gray;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
+		-moz-box-shadow: 1px 1px 5px silver;
+		-webkit-box-shadow: 1px 1px 5px silver;
+		-webkit-transition: all 0.5s;
+		}
+
+		.cell-inner:hover {
+		background: #f0f0f0;
+		}
+
+		.cell-left {
+		width: 40px;
+		height: 100%;
+		float: left;
+		border-right: 1px dotted gray;
+		background: url("/images/user_identity.gif") no-repeat top center;
+		}
+
+		.cell-main {
+		margin-left: 50px;
+		}
+		.cell-story {
+		white-space: normal!important;
+		line-height: 19px!important;
+		}
+
+		.loading-indicator {
+		display: inline-block;
+		padding: 12px;
+		background: white;
+		-opacity: 0.5;
+		color: black;
+		font-weight: bold;
+		z-index: 9999;
+		border: 1px solid red;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
+		-moz-box-shadow: 0 0 5px red;
+		-webkit-box-shadow: 0px 0px 5px red;
+		-text-shadow: 1px 1px 1px white;
+		}
+
+		.loading-indicator label {
+		padding-left: 20px;
+		background: url('/images/ajax-loader-small.gif') no-repeat center left;
+		}
+	</style>
+	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.layout-latest.js"></script>
+	<script type="text/javascript" src="/javascripts/application.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-ui-min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.event.drag.js"></script>
+	<script type="text/javascript" src="/javascripts/slick.core.js"></script>
+	<script type="text/javascript" src="/javascripts/slick.grid.js"></script>
+	<script type="text/javascript" src="/javascripts/slick.remotemodel.js"></script>
+	<script type="text/javascript" src="/javascripts/application.js"></script>
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	<script type="text/javascript">
+		twttr.events.bind('tweet', function(event) {
+			alert("A tweet happened.");
+		});
+		twttr.events.bind('retweet', function(event) {
+			alert("A retweet happened.");  //not working currently
+		});
+		twttr.events.bind('favorite', function(event) {
+			alert("A favorite happened.");
+		});
+		var grid;
+		var data = [];
+		var loader = new Slick.Data.RemoteModel();
+
+		var storyTitleFormatter = function(row, cell, value, columnDef, dataContext) {
+			var dataParts = dataContext.split("$");
+			var tweetText = '<div class="cell-main">' + dataParts[1] + '</div>';
+			var tweetId = dataParts[0];
+			var reTweet = '<a href="http://www.twitter.com/intent/retweet?tweet_id=' + tweetId + '"><img src="/images/retweet.png"></a>';
+			var favorite = '<a href="http://www.twitter.com/intent/favorite?tweet_id=' + tweetId + '"><img src="/images/favorite.png"></a>';
+			var reply = '<a href="http://www.twitter.com/intent/tweet?in_reply_to=' + tweetId + '"><img src="/images/reply.png"></a>';
+
+			totalContent = '<div class="cell-inner" width=500px><div class="cell-left">Photo</div>' + reTweet + '&nbsp;&nbsp;' + favorite + '&nbsp;&nbsp;' + reply + "<br/>" + tweetText + '</div>';
+
+			return totalContent;
+		};
+		var columns = [{
+			id:"story",
+			name:"Story",
+			width:500,
+			formatter:storyTitleFormatter,
+			cssClass:"contact-card-cell"
+		}
+		];
+
+		var options = {
+			rowHeight: 64,
+			editable: false,
+			enableAddRow: false,
+			enableCellNavigation: false
+		};
+
+		var loadingIndicator = null;
+
+		$( function() {
+			grid = new Slick.Grid("#myGrid", loader.data, columns, options);
+
+			grid.onViewportChanged.subscribe( function(e,args) {
+				var vp = grid.getViewport();
+				loader.ensureData(vp.top, vp.bottom);
+				//alert(vp.top + ':' + vp.bottom);
+			});
+			grid.onSort.subscribe( function(e,args) {
+				loader.setSort(args.sortCol.field, args.sortAsc ? 1 : -1);
+				var vp = grid.getViewport();
+				loader.ensureData(vp.top, vp.bottom);
+			});
+			loader.onDataLoading.subscribe( function() {
+				if (!loadingIndicator) {
+					loadingIndicator = $("<span class='loading-indicator'><label>Buffering...</label></span>").appendTo(document.body);
+					var $g = $("#myGrid");
+
+					loadingIndicator
+					.css("position", "absolute")
+					.css("top", $g.position().top + $g.height()/2 - loadingIndicator.height()/2)
+					.css("left", $g.position().left + $g.width()/2 - loadingIndicator.width()/2)
+				}
+
+				loadingIndicator.show();
+			});
+			loader.onDataLoaded.subscribe( function(e,args) {
+				for (var i = args.from; i <= args.to; i++) {
+					grid.invalidateRow(i);
+				}
+
+				grid.updateRowCount();
+				grid.render();
+
+				loadingIndicator.fadeOut();
+			});
+			// load the first page
+			grid.onViewportChanged.notify();
+		})
+		$(document).ready( function () {
+			$('#container').layout();
+			$('#paddingWrapper').layout();
+			//getTweet();
+			//loadData();
+		});
+	</script>
+</HEAD>
+<BODY>
+	<div id="container">
+		<div id="paddingWrapper" class="pane ui-layout-center">
+			<div class="pane ui-layout-center">
+
+				<table width="100%" border=1>
+					<tr>
+						<td valign="top" width="50%">
+						<div id="myGrid" style="width:600px;height:500px;">
+						</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<DIV class="ui-layout-north">
+				<a href="/logout">Logout</a>
+			</DIV>
+			<DIV class="ui-layout-south">
+				South
+			</DIV>
+			<DIV class="ui-layout-east">
+				East
+			</DIV>
+			<DIV class="ui-layout-west">
+				West
+			</DIV>
+		</div>
+	</div>
+</BODY>

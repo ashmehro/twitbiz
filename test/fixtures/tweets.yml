@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  deal_id: 1
+  tweet_id: MyString
+  screen_name: MyString
+  real_name: MyString
+  level: 1
+  deal_used: false
+  url: MyString
+  data: MyString
+  comments: MyText
+
+two:
+  deal_id: 1
+  tweet_id: MyString
+  screen_name: MyString
+  real_name: MyString
+  level: 1
+  deal_used: false
+  url: MyString
+  data: MyString
+  comments: MyText

@@ -1,0 +1,20 @@
+<html lang="en">
+  <head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	  <title>authorized.html</title>
+	  <%= yield :head %>
+  <% val = session[:access_token] %>
+
+<script text=javascript>
+   function testScript{
+		alert('1');
+		alert(<%=val%>);
+	}
+	testScript();
+   </script>
+  </head>
+  <body>
+	This is where the content displays
+   
+  </body>
+</html>

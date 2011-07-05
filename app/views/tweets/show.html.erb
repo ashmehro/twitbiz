@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Deal:</b>
+  <%= @tweet.deal_id %>
+</p>
+
+<p>
+  <b>Tweet:</b>
+  <%= @tweet.tweet_id %>
+</p>
+
+<p>
+  <b>Screen name:</b>
+  <%= @tweet.screen_name %>
+</p>
+
+<p>
+  <b>Real name:</b>
+  <%= @tweet.real_name %>
+</p>
+
+<p>
+  <b>Level:</b>
+  <%= @tweet.level %>
+</p>
+
+<p>
+  <b>Deal used:</b>
+  <%= @tweet.deal_used %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @tweet.url %>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= @tweet.data %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <%= @tweet.comments %>
+</p>
+
+
+<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+<%= link_to 'Back', tweets_path %>

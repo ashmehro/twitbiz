@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  details: MyText
+  org_id: 1
+  category_id: 1
+  start_date: 2011-06-22
+  end_date: 2011-06-22
+  is_local: false
+  is_state: false
+  is_national: false
+
+two:
+  details: MyText
+  org_id: 1
+  category_id: 1
+  start_date: 2011-06-22
+  end_date: 2011-06-22
+  is_local: false
+  is_state: false
+  is_national: false
