@@ -1,0 +1,23 @@
+<html lang="en">
+  <head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	  <title>Buy the deal</title>
+	  <%= yield :head %>
+  <% val = @status.text %>
+
+<script text=javascript>
+	$(document).ready(function() {
+  		testScript();
+	});
+   function testScript{
+		alert(<%=val%>);
+		value = <%=val%>;
+		$('body').data = value
+	}
+   </script>
+  </head>
+  <body>
+	This is the place where deal content would come
+   
+  </body>
+</html>

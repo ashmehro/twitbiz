@@ -134,7 +134,7 @@
 			alert("A tweet happened.");
 		});
 		twttr.events.bind('retweet', function(event) {
-			alert("A retweet happened.");  //not working currently
+			alert("A retweet happened.");  
 		});
 		twttr.events.bind('favorite', function(event) {
 			alert("A favorite happened.");
@@ -150,8 +150,9 @@
 			var reTweet = '<a href="http://www.twitter.com/intent/retweet?tweet_id=' + tweetId + '"><img src="/images/retweet.png"></a>';
 			var favorite = '<a href="http://www.twitter.com/intent/favorite?tweet_id=' + tweetId + '"><img src="/images/favorite.png"></a>';
 			var reply = '<a href="http://www.twitter.com/intent/tweet?in_reply_to=' + tweetId + '"><img src="/images/reply.png"></a>';
+			var buy = '<a href="/usetweet?tweet_id=' + tweetId + '"><img src="/images/icons/asterisk_orange.png"></a>';
 
-			totalContent = '<div class="cell-inner" width=500px><div class="cell-left">Photo</div>' + reTweet + '&nbsp;&nbsp;' + favorite + '&nbsp;&nbsp;' + reply + "<br/>" + tweetText + '</div>';
+			totalContent = '<div class="cell-inner" width=500px><div class="cell-left">Photo</div>' + reTweet + '&nbsp;&nbsp;' + favorite + '&nbsp;&nbsp;' + reply + '&nbsp;&nbsp;' + buy + "<br/>" + tweetText + '</div>';
 
 			return totalContent;
 		};
@@ -224,7 +225,8 @@
 	<div id="container">
 		<div id="paddingWrapper" class="pane ui-layout-center">
 			<div class="pane ui-layout-center">
-
+				<!--Depending upon the user role, the tweet button should have the ><-->
+				<a href="http://twitter.com/share?url=''&text=#twitbiz&count=none" class="twitter-share-button">Tweet</a>
 				<table width="100%" border=1>
 					<tr>
 						<td valign="top" width="50%">
@@ -237,15 +239,15 @@
 			<DIV class="ui-layout-north">
 				<a href="/logout">Logout</a>
 			</DIV>
-			<DIV class="ui-layout-south">
-				South
+			<!--DIV class="ui-layout-south">
+			South
 			</DIV>
 			<DIV class="ui-layout-east">
-				East
+			East
 			</DIV>
 			<DIV class="ui-layout-west">
-				West
-			</DIV>
+			West
+			</DIV-->
 		</div>
 	</div>
 </BODY>

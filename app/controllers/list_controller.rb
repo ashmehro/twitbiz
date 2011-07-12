@@ -21,15 +21,15 @@ class ListController < ApplicationController
       Twitter.configure do |config|
         config.consumer_key = Rails.application.config.consumer_key
         config.consumer_secret = Rails.application.config.consumer_secret
-        config.oauth_token = Rails.application.config.oauth_token
-        config.oauth_token_secret = Rails.application.config.oauth_token_secret
+        config.oauth_token = session[:oauth_token]
+        config.oauth_token_secret = session[:oauth_token_secret]
       end
-    
+
       client = Twitter::Client.new
       @tweets = client.home_timeline
       @alltweets = ""
       @tweets.each {
-        |tweet|
+      |tweet|
         @alltweets += tweet.text + "\n\n"
       }
       respond_to do |format|
@@ -40,7 +40,7 @@ class ListController < ApplicationController
       render :text => "No Tweet Content"
     end
   end
-    
+
   def get_first_n_tweets
     begin
       Twitter.configure do |config|
@@ -49,18 +49,20 @@ class ListController < ApplicationController
         config.oauth_token = session['access_token']['oauth_token']
         config.oauth_token_secret = session['access_token']['oauth_token_secret']
       end
-    
+
       client = Twitter::Client.new
+      session['access_token'] = ""
+      session['twit_client'] = client
       n = params[:count]
       #@tweets = client.home_timeline :count=>n, :retweeted=>true
       @tweets = client.get('statuses/home_timeline', {:count=>n, :include_entities=>1})
       @alltweets = ""
       @tweets.each {
-        |tweet|
-        #count = (tweet.retweet_count > 0) ? tweet.retweet_count : 0;
-        #if tweet.retweet_count > 0
-          @alltweets += tweet.id_str + "$" + tweet.text + "\n\n"
-        #end
+      |tweet|
+      #count = (tweet.retweet_count > 0) ? tweet.retweet_count : 0;
+      #if tweet.retweet_count > 0
+        @alltweets += tweet.id_str + "$" + tweet.text + "\n\n"
+      #end
       }
       respond_to do |format|
         logger.info @alltweets
@@ -70,7 +72,7 @@ class ListController < ApplicationController
       render :text => "No Tweet Content"
     end
   end
-  
+
   def get_search_results
     begin
       search = Twitter::Search.new
@@ -84,4 +86,14 @@ class ListController < ApplicationController
       render :text => "No search results found"
     end
   end
+
+  def usetweet
+    begin
+      client = session['twit_client']
+      @status = client.status(params[:tweet_id])
+      render "usetweet"
+    end
+  rescue
+
+    end
 end

@@ -2,6 +2,9 @@ require 'uri'
 
 class LoginController < ApplicationController
   def index
+    #if session['access_token'] != nil
+    #  authorized
+    #end
   end
   
   def access_token
