@@ -30,6 +30,19 @@ function getTweet(){
    document.getElementById('tweetarea').value = tweet;
   }
 				
+function getStatus(tweetId){
+	tweet = $.ajax({
+				type: 'GET',
+				url: '/usetweet',
+				data: 'tweet_id=' + tweetId,
+				async: false,
+				success: function(msg){
+                        return msg ;
+                }
+        }).responseText;
+   alert(tweet);
+  }
+  				
 function doSearch(){
 	val = document.getElementById('srchid').value;
 	alert(val);

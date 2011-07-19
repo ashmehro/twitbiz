@@ -35,6 +35,7 @@ match 'login/authorized' => 'login#authorized'
 match 'login' => 'login#new'
 match 'logout' => 'login#logout'
 match 'usetweet' => 'list#usetweet'
+match 'get_latest_tweet' => 'list#get_latest_tweet'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

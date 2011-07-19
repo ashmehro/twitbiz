@@ -130,8 +130,21 @@
 	<script type="text/javascript" src="/javascripts/application.js"></script>
 	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 	<script type="text/javascript">
+		function buyTweet(tweetId){
+			window.open('/usetweet?tweet_id=' + tweetId,
+						'The tweet','width=400,height=400');
+  		}
 		twttr.events.bind('tweet', function(event) {
-			alert("A tweet happened.");
+			alert(1);
+			/*val = $.ajax({
+                type: 'GET',
+                url: '/get_latest_tweet',
+                async: false,
+                success: function(msg){
+                	return msg ;
+                }
+        	}).responseText;
+			alert(val);*/
 		});
 		twttr.events.bind('retweet', function(event) {
 			alert("A retweet happened.");  
@@ -145,12 +158,16 @@
 
 		var storyTitleFormatter = function(row, cell, value, columnDef, dataContext) {
 			var dataParts = dataContext.split("$");
-			var tweetText = '<div class="cell-main">' + dataParts[1] + '</div>';
+			//var user = dataParts[1].split("-")[0];
+			//var tweet = dataParts[1].split("-")[1];
+			var tweet = dataParts[1];
+			var tweetText = '<div class="cell-main">' + tweet + '</div>';
 			var tweetId = dataParts[0];
+			var buyarg = "'" + tweetId + "'"; 
 			var reTweet = '<a href="http://www.twitter.com/intent/retweet?tweet_id=' + tweetId + '"><img src="/images/retweet.png"></a>';
 			var favorite = '<a href="http://www.twitter.com/intent/favorite?tweet_id=' + tweetId + '"><img src="/images/favorite.png"></a>';
 			var reply = '<a href="http://www.twitter.com/intent/tweet?in_reply_to=' + tweetId + '"><img src="/images/reply.png"></a>';
-			var buy = '<a href="/usetweet?tweet_id=' + tweetId + '"><img src="/images/icons/asterisk_orange.png"></a>';
+			var buy = '<a id=buy_' +tweetId+ ' href="javascript:buyTweet(' + buyarg + ')"><img src="/images/icons/asterisk_orange.png"></a>';
 
 			totalContent = '<div class="cell-inner" width=500px><div class="cell-left">Photo</div>' + reTweet + '&nbsp;&nbsp;' + favorite + '&nbsp;&nbsp;' + reply + '&nbsp;&nbsp;' + buy + "<br/>" + tweetText + '</div>';
 

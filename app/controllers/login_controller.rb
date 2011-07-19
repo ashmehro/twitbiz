@@ -11,8 +11,6 @@ class LoginController < ApplicationController
     self.access_token
   end
   
-  
-  
   def authorized
     @request_token = session[:request_token]
     
@@ -31,6 +29,14 @@ class LoginController < ApplicationController
     @length = @access_token.to_s.length
     session['access_token'] = @access_token.params
     response = @access_token.get('/account/verify_credentials.json')
+    @member = Member.find(:first, :conditions =>["twitter_id = ?", @access_token.params[:user_id]])
+    if (@member == nil)
+      @member = Member.new({:twitter_id => @access_token.params[:user_id], :twitter_handle => @access_token.params[:screen_name],
+                      :auth_token =>@access_token.params[:oauth_token], :auth_token_secret=>@access_token.params[:oauth_token_secret]})
+      @member.save
+    else
+      Member.update(@member.id, {:auth_token =>@access_token.params[:oauth_token], :auth_token_secret=>@access_token.params[:oauth_token_secret]})
+    end
     redirect_to '/list/index'
     
     case response
@@ -45,7 +51,7 @@ class LoginController < ApplicationController
     
   def logout
     #self.current_user = false 
-    session = nil
+    reset_session #session = nil
     flash[:notice] = "You have been logged out."
     redirect_to root_url
   end
@@ -62,8 +68,6 @@ class LoginController < ApplicationController
       :request_token_path => "/oauth/request_token",
       :access_token_path  => "/oauth/access_token",
       :authorize_path     => "/oauth/authorize",
-      #:authorize_url      => "https://api.twitter.com/oauth/authorize",
-      #:authenticate_url   => "https://api.twitter.com/oauth/authenticate",
       :oauth_callback_url => "http://bit.ly/jUm4Ab", # for /login/authorized
       :oauth_nonce => OAuth::Helper.generate_key(64),
       :oauth_signature_method => "HMAC-SHA1",
