@@ -1,4 +1,6 @@
 Twitfollowers::Application.routes.draw do
+  resources :purchases
+
   get "login/index"
 
   resources :members
@@ -36,6 +38,8 @@ match 'login' => 'login#new'
 match 'logout' => 'login#logout'
 match 'usetweet' => 'list#usetweet'
 match 'get_latest_tweet' => 'list#get_latest_tweet'
+match 'buy' => 'list#buy'
+match 'list/done' => 'list#done'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

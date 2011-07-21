@@ -37,6 +37,7 @@ class LoginController < ApplicationController
     else
       Member.update(@member.id, {:auth_token =>@access_token.params[:oauth_token], :auth_token_secret=>@access_token.params[:oauth_token_secret]})
     end
+    is_login_business(@member[:twitter_handle])
     redirect_to '/list/index'
     
     case response
@@ -46,7 +47,7 @@ class LoginController < ApplicationController
         puts "error in getting credentials"
       end
       rescue => err
-        puts "Exception in verify_credentials: #{err}"
+        render :inline=> "Exception in verify_credentials: #{err}"
   end
     
   def logout
@@ -77,9 +78,7 @@ class LoginController < ApplicationController
     
     @request_token = @consumer.get_request_token(:oauth_callback => @callback_url)
     session[:request_token] = @request_token
-    #session[:oauth_token] = @request_token.params['oauth_token']
-    #session[:oauth_token_secret] = @request_token.params['oauth_token_secret']
-    #session[:consumer] = @consumer
+
     @auth_url = @consumer.authorize_url + "?oauth_token=" + @request_token.token
     redirect_to @auth_url
     
@@ -89,5 +88,15 @@ class LoginController < ApplicationController
       flash[:error] = "Twitter API failure (account login)"
       redirect_to root_url
   end
-  
+
+  def is_login_business (twit_handle)
+    #search for the login in org
+    @org = Org.find(:first, :conditions =>["handle = ?", twit_handle])
+    if (@org != nil)
+      session[:is_biz] = true
+      session[:org_id] = @org.id
+    else
+      session[:is_biz] = false
+    end
+  end
 end

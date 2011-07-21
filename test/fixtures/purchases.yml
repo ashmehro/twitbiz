@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  deal_id: MyString
+  tweet_id: MyString
+  user_id: MyString
+  org_id: MyString
+  bought_on: 2011-07-19 06:23:43
+  count: 1
+  details: MyText
+
+two:
+  deal_id: MyString
+  tweet_id: MyString
+  user_id: MyString
+  org_id: MyString
+  bought_on: 2011-07-19 06:23:43
+  count: 1
+  details: MyText

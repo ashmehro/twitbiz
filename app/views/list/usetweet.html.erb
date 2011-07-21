@@ -4,21 +4,21 @@
 		<title>Buy the deal</title>
 		<%= yield :head %>
 	</head>
-	<body>
 
-		<form action="/list/buy" method="post">
-			<div style="margin:0;padding:0">
-				<input name="userId" type=hidden value="<%= @status[:user][:id_str]%>" />
-				<input name="tweetId" type=hidden value="<%= @status[:id_str]%>" />
-			</div>
-			User name: <%= @status[:user][:screen_name]%>;
+		<%= form_for @status, :as => :post, :url => '/buy' do |f| %>
+			<!--div style="margin:0;padding:0" -->
+				<%= hidden_field_tag :userId, @status.user.id_str  %>
+				<%= hidden_field_tag :tweetId, @status.id_str %>
+				<%= hidden_field_tag :dealText, @status.text %>
+			<!--/div -->
+			<%= label_tag :user_name, @status.user.screen_name %>
 			<br/>
-			Tweet Text: <%= @status[:text] %>
+			<%= label_tag :tweet_text, @status.text %>
 			<br/>
 			Do you want to buy this deal?
 			<br/>
-			<input type=submit id=Submit name=submitTweet value="Yes!"> &nbsp;&nbsp;
+			<%= submit_tag("Submit") %>
 			<input type=button id=Cancel name=cancelTweet value="Not Now" onclick=window.close()>
-		</form>
-	</body>
+		<% end %>
+	
 </html>

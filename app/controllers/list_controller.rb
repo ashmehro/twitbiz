@@ -58,21 +58,33 @@ class ListController < ApplicationController
         client = session['twit_client']
       end
       n = params[:count]
-      #n = 2
       
-      @tweets = client.get('statuses/home_timeline', {:count=>n, :include_entities=>1})
+      #If it is business, get its tweets else get normal consumer tweets
+      if (session[:is_biz] == true)
+        @tweets = client.get('statuses/user_timeline', {:count=>n, :include_entities=>1})
+      else
+        @tweets = client.get('statuses/home_timeline', {:count=>n, :include_entities=>1})
+      end
+      
       @alltweets = ""
+      
       @tweets.each {
         |tweet|
         #@alltweets += tweet.id_str + "$" + tweet.user.screen_name + " - " + tweet.text + "\n\n"
-        @alltweets += tweet.id_str + "$" + tweet.text + "\n\n" 
+        @alltweets += tweet.id_str + "$" + tweet.text 
+        @deal = Deal.find(:first, :conditions=> ["tweet_id=?", tweet.id])
+        if @deal != nil
+          @alltweets += "$" + @deal.id.to_s
+        end 
+        @alltweets += "\n\n"
       } 
       respond_to do |format|
         logger.info @alltweets
         format.js {render :json =>@alltweets}
       end
-    rescue
-      render :text => "No Tweet Content"
+    rescue => err
+      logger.info "Error while getting tweets #{err}"
+      redirec
     end
   end
 
@@ -112,26 +124,53 @@ class ListController < ApplicationController
         @status = client.get(@url, {:trim_user=>0, :include_entities=>1})
       end
     end
-    rescue
-      render :inline => "Cannot make connection with twitter API "   
+    rescue => err
+      logger.info "Unable to get the deal #{err}"
+      redirect_to root_url
   end
   
   def buy
-    @tweet = Tweet.new
-    Tweet.update()
+    begin
+      @purchase = Purchase.new({:tweet_id => params[:tweetId], :user_id => params[:userId], :details => params[:dealText], :bought_on => Time.zone.now})
+      @purchase.save
+      render :inline => "You bought the deal!"
+    rescue => err
+      logger.info "The deal could not be bought because: #{err}"
+      render :inline => "Oops ... the deal could not be bought at this time!"
+    end
   end
   
   def get_latest_tweet
+    @tweet_id = ""
     begin
-    #  client = session['twit_client']
-    #  @url = 'statuses/user_timeline'
-    #  @latest_tweet = client.get(@url, {:include_entities=>1, :count=>1})
-    #  @deal = Deal.new({:org_id => @latest_tweet.params[:user][:id_str], :details => @access_token.params[:text],
-    #                  :start_date =>Time.zone.now, :end_date=>Time.zone.now})
-    #  @deal.save
-    rescue
-    #  puts "cannot get the latest tweet or not save the deal" 
-    end
+      client = session['twit_client']
+      @url = 'statuses/user_timeline'
+      @latest_tweets = client.get(@url, {:include_entities=>1, :count=>1})
+      @latest_tweet = @latest_tweets[0]
+      @org_id = @latest_tweet[:user][:id_str]
+      @details = @latest_tweet[:text]
+      @tweet_id = @latest_tweet[:id_str]
+      
+      if (session[:is_biz] == true)
+        @deal = Deal.new({:org_id => session[:org_id], :tweet_id => @latest_tweet[:id_str],:details => @details,
+                        :start_date =>Time.zone.now, :end_date=>Time.zone.now})
+        @deal.save
+        render :inline => "This deal has been posted - " + @details
+      else
+        render :inline => "Tweeted: " + @details
+      end
+    rescue => err
+      logger.info "While saving the deal, folowing error happened: #{err}"
+      render :inline => "Oops ... could not post your deal at this time" 
+      #delete the tweet in case of failure
+      begin
+      @url = 'statuses/destroy/'+ @tweet_id
+      client = session['twit_client']
+      @status = client.post(@url, {:trim_user=>0, :include_entities=>1})
+      rescue => err2
+        render :inline => "The deal is not saved. Please delete the deal tweet." 
+      end
+      end
   end
     
     

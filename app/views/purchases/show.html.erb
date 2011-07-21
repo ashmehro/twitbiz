@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Deal:</b>
+  <%= @purchase.deal_id %>
+</p>
+
+<p>
+  <b>Tweet:</b>
+  <%= @purchase.tweet_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @purchase.user_id %>
+</p>
+
+<p>
+  <b>Org:</b>
+  <%= @purchase.org_id %>
+</p>
+
+<p>
+  <b>Bought on:</b>
+  <%= @purchase.bought_on %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @purchase.count %>
+</p>
+
+<p>
+  <b>Details:</b>
+  <%= @purchase.details %>
+</p>
+
+
+<%= link_to 'Edit', edit_purchase_path(@purchase) %> |
+<%= link_to 'Back', purchases_path %>

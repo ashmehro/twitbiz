@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110626122519) do
+ActiveRecord::Schema.define(:version => 20110719132343) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20110626122519) do
     t.boolean  "is_national"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "tweet_id"
   end
 
   create_table "members", :force => true do |t|
@@ -65,6 +66,18 @@ ActiveRecord::Schema.define(:version => 20110626122519) do
     t.string   "facebook_link"
     t.string   "website"
     t.text     "notes"
+  end
+
+  create_table "purchases", :force => true do |t|
+    t.string   "deal_id"
+    t.string   "tweet_id"
+    t.string   "user_id"
+    t.string   "org_id"
+    t.datetime "bought_on"
+    t.integer  "count"
+    t.text     "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tweets", :force => true do |t|
