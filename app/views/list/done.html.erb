@@ -3,13 +3,49 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Deal Purchased</title>
 <script>
-		$(document).ready( function () {
-			alert('Deal purchased!');
-			window.close();
-		});
+	$(document).ready( function () {
+		alert('Deal purchased!');
+		window.close();
+	});
 </script>
+<style type="text/css">
+	table {
+		border-width: 0;
+		border-style: none;
+		border-color: #0000ff;
+		border-collapse: collapse;
+	}
+	td {
+		border-width: 0;
+		border-style: none;
+		border-color: #0000ff;
+		border-collapse: collapse;
+		padding: 0;
+		margin: 0;
+		width: 10px;
+		height: 10px;
+	}
+	td.black {
+		background-color: #000;
+	}
+	td.white {
+		background-color: #fff;
+	}
+ </style>
 	</head>
 	<body>
-		Test content
+		<table>
+			<% @qr.modules.each_index do |x| %>
+			   <tr>  
+			   <% @qr.modules.each_index do |y| %>
+			    <% if @qr.dark?(x,y) %>
+			     <td class="black"/>
+			    <% else %>
+			     <td class="white"/>
+			    <% end %>
+			   <% end %>
+			   </tr>
+			 <% end %>
+ </table>
 	</body>
 </html>

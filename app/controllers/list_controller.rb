@@ -108,7 +108,7 @@ class ListController < ApplicationController
       client = session['twit_client']
         @tweet_id = params[:tweet_id]
         @url = 'statuses/show/' + @tweet_id
-
+        
         @status = client.get(@url, {:trim_user=>0, :include_entities=>1})
 
         rescue
@@ -131,9 +131,16 @@ class ListController < ApplicationController
   
   def buy
     begin
-      @purchase = Purchase.new({:tweet_id => params[:tweetId], :user_id => params[:userId], :details => params[:dealText], :bought_on => Time.zone.now})
+      @unique_id = '' + rand(1000000).to_s +  params[:tweetId] + rand(1000000).to_s
+      @purchase = Purchase.new({:tweet_id => params[:tweetId], 
+        :user_id => params[:userId], 
+        :details => params[:dealText], 
+        :bought_on => Time.zone.now,
+        :unique_id => @unique_id})
       @purchase.save
-      render :inline => "You bought the deal!"
+      @qr = RQRCode::QRCode.new( @unique_id, :size => 4, :level => :h )
+      render "done"
+      #render :inline => "You bought the deal!"
     rescue => err
       logger.info "The deal could not be bought because: #{err}"
       render :inline => "Oops ... the deal could not be bought at this time!"

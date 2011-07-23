@@ -39,7 +39,7 @@ match 'logout' => 'login#logout'
 match 'usetweet' => 'list#usetweet'
 match 'get_latest_tweet' => 'list#get_latest_tweet'
 match 'buy' => 'list#buy'
-match 'list/done' => 'list#done'
+match 'done' => 'list#done'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
