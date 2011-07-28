@@ -130,8 +130,11 @@
 	<script type="text/javascript" src="/javascripts/application.js"></script>
 	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 	<script type="text/javascript">
-		function buyTweet(tweetId){
-			window.open('/usetweet?tweet_id=' + tweetId,
+		function buyTweet(data){
+			parts = data.split("$");
+			var tweetId = parts[0];
+			var dealId = parts[2];
+			window.open('/usetweet?tweet_id=' + tweetId + '&deal_id=' + dealId,
 						'The tweet','width=400,height=400');
   		}
 		twttr.events.bind('tweet', function(event) {
@@ -160,7 +163,7 @@
 			var tweet = dataParts[1];
 			var tweetText = '<div class="cell-main">' + tweet + '</div>';
 			var tweetId = dataParts[0];
-			var buyarg = "'" + tweetId + "'"; 
+			var buyarg = "'" + dataContext + "'"; 
 			var reTweet = '<a href="http://www.twitter.com/intent/retweet?tweet_id=' + tweetId + '"><img src="/images/retweet.png"></a>';
 			var favorite = '<a href="http://www.twitter.com/intent/favorite?tweet_id=' + tweetId + '"><img src="/images/favorite.png"></a>';
 			var reply = '<a href="http://www.twitter.com/intent/tweet?in_reply_to=' + tweetId + '"><img src="/images/reply.png"></a>';
@@ -236,8 +239,13 @@
 		$(document).ready( function () {
 			$('#container').layout();
 			$('#paddingWrapper').layout();
-			//getTweet();
-			//loadData();
+			<% hasemail = session[:noemail] 
+			if (hasemail == true)%>
+				window.open('/get_email?user_id=' + <%=session[:user_id]%>,
+						'Update Email 123','width=400,height=400');
+
+			<%end%>
+
 		});
 	</script>
 </HEAD>

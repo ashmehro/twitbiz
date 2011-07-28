@@ -33,10 +33,12 @@ class LoginController < ApplicationController
     if (@member == nil)
       @member = Member.new({:twitter_id => @access_token.params[:user_id], :twitter_handle => @access_token.params[:screen_name],
                       :auth_token =>@access_token.params[:oauth_token], :auth_token_secret=>@access_token.params[:oauth_token_secret]})
+      session[:noemail] = true
       @member.save
     else
       Member.update(@member.id, {:auth_token =>@access_token.params[:oauth_token], :auth_token_secret=>@access_token.params[:oauth_token_secret]})
     end
+    session[:user_id] = @member.id
     is_login_business(@member[:twitter_handle])
     redirect_to '/list/index'
     
@@ -49,6 +51,16 @@ class LoginController < ApplicationController
       rescue => err
         render :inline=> "Exception in verify_credentials: #{err}"
   end
+  
+  def update_email
+    begin
+      @email = params[:email]
+      Member.update(session[:user_id], {:email => @email})
+      session[:noemail] = false
+    rescue => err
+        logger.info "User could not update the email address #{@email} because of #{err}"
+    end  
+  end
     
   def logout
     #self.current_user = false 
@@ -58,10 +70,10 @@ class LoginController < ApplicationController
   end
   
   def new
-    
+    session[:email] = params[:email]
     @consumer_key = Rails.application.config.consumer_key
     @consumer_secret = Rails.application.config.consumer_secret
-    @callback_url = "http://bit.ly/jUm4Ab" #for /login/authorized
+    @callback_url = "http://bit.ly/jUm4Ab" 
     @consumer = OAuth::Consumer.new(@consumer_key, @consumer_secret, {
       :site               => "https://api.twitter.com",
       :scheme             => :header,

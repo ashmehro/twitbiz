@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	  <title>TwitBiz deal</title>
+	  <%= javascript_include_tag :defaults %>
+	  <%= yield :head %>
+  </head>
+  <body>
+	Hello,
+		Congratulations on buying this deal from Twitbiz.
+		You can use this coupon from between <%= @deal.start_date%> and <%= @deal.end_date%>.
+		<table>
+			<% @qr.modules.each_index do |x| %>
+			   <tr>  
+			   <% @qr.modules.each_index do |y| %>
+			    <% if @qr.dark?(x,y) %>
+			     <td class="black"/>
+			    <% else %>
+			     <td class="white"/>
+			    <% end %>
+			   <% end %>
+			   </tr>
+			 <% end %>
+ 		</table>
+  </body>
+</html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110723060148) do
+ActiveRecord::Schema.define(:version => 20110725062731) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(:version => 20110723060148) do
     t.text     "details"
     t.integer  "org_id"
     t.integer  "category_id"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.boolean  "is_local"
     t.boolean  "is_state"
     t.boolean  "is_national"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20110723060148) do
     t.string   "profile_image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
   end
 
   create_table "orgs", :force => true do |t|

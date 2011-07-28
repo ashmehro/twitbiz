@@ -40,6 +40,10 @@ match 'usetweet' => 'list#usetweet'
 match 'get_latest_tweet' => 'list#get_latest_tweet'
 match 'buy' => 'list#buy'
 match 'done' => 'list#done'
+match 'deal_mail' => 'dealmailer#deal_mail'
+match 'update_email' => 'login#update_email'
+match 'get_email' => 'login#get_email'
+match 'register' => 'login#register'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

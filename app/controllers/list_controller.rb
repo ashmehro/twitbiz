@@ -84,7 +84,7 @@ class ListController < ApplicationController
       end
     rescue => err
       logger.info "Error while getting tweets #{err}"
-      redirec
+      redirect_to root_url
     end
   end
 
@@ -107,10 +107,11 @@ class ListController < ApplicationController
       begin  
       client = session['twit_client']
         @tweet_id = params[:tweet_id]
+        @deal_id = params[:deal_id]
         @url = 'statuses/show/' + @tweet_id
         
         @status = client.get(@url, {:trim_user=>0, :include_entities=>1})
-
+        
         rescue
         puts "Unable to get status, get another client"
         Twitter.configure do |config|
@@ -132,13 +133,15 @@ class ListController < ApplicationController
   def buy
     begin
       @unique_id = '' + rand(1000000).to_s +  params[:tweetId] + rand(1000000).to_s
-      @purchase = Purchase.new({:tweet_id => params[:tweetId], 
-        :user_id => params[:userId], 
+      @purchase = Purchase.new({:deal_id => params[:dealId], 
+        :tweet_id => params[:tweetId], 
+        :user_id => session[:user_id], 
         :details => params[:dealText], 
         :bought_on => Time.zone.now,
         :unique_id => @unique_id})
       @purchase.save
       @qr = RQRCode::QRCode.new( @unique_id, :size => 4, :level => :h )
+      DealMailer.deal_email(@purchase, @qr)
       render "done"
       #render :inline => "You bought the deal!"
     rescue => err

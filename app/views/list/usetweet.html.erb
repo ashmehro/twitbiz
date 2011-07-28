@@ -3,22 +3,26 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Buy the deal</title>
 		<%= yield :head %>
-	</head>
+
+ 	</head>
 
 		<%= form_for @status, :as => :post, :url => '/buy' do |f| %>
 			<!--div style="margin:0;padding:0" -->
 				<%= hidden_field_tag :userId, @status.user.id_str  %>
 				<%= hidden_field_tag :tweetId, @status.id_str %>
 				<%= hidden_field_tag :dealText, @status.text %>
+				<%= hidden_field_tag :dealId, @deal_id%>
 			<!--/div -->
 			<%= label_tag :user_name, @status.user.screen_name %>
 			<br/>
+			<br>
 			<%= label_tag :tweet_text, @status.text %>
 			<br/>
 			Do you want to buy this deal?
 			<br/>
 			<%= submit_tag("Submit") %>
 			<input type=button id=Cancel name=cancelTweet value="Not Now" onclick=window.close()>
+			
 		<% end %>
 	
 </html>

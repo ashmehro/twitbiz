@@ -1,0 +1,20 @@
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Update Email address</title>
+		<%= yield :head %>
+	</head>
+	<%= form_tag '/update_email', :method => :post  do%>
+		<%= hidden_field_tag :userId, params[:user_id]  %>
+	
+		<br>
+	
+		<%= label_tag :email, "Please provide the email address" %>
+		<br/>
+		<%= text_field_tag :email%>
+		<br/>
+		<%= submit_tag("Submit") %>
+		<input type=button id=Cancel value="Not Now" onclick="window.close();alert('You cannot buy deals without email address');">
+
+	<% end %>
+</html>
