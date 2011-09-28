@@ -55,5 +55,23 @@
   <%= @org.notes %>
 </p>
 
+<p>
+  <b>Latitude:</b>
+  <%= @org.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @org.longitude %>
+</p>
+
+<p>  <b>Nearby Deals Locations:</b>
+<% for org in @org.nearbys(2) %>  
+  <li><%= link_to org.address, org %> 
+    (<%= org.distance.round(2) %> miles)</li>  
+<% end %>  
+</p>
+
 <%= link_to 'Edit', edit_org_path(@org) %> |
 <%= link_to 'Back', orgs_path %>
+<%= link_to 'Show Nearby location', '/biz_around_me?lat=' + @org.latitude.to_s + '&lng=' + @org.longitude.to_s %>

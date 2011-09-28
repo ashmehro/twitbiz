@@ -24,6 +24,9 @@ gem 'jquery-rails'
 
 #gem to install rqrcode gem - gem to encode QRcode
 gem 'rqrcode', '0.3.4'
+
+#gem to use for geocoding - changing address into Lat-Lng and vice versa
+gem 'geocoder', '1.0.2'
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
 # gem 'ruby-debug19', :require => 'ruby-debug'

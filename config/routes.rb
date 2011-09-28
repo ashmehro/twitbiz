@@ -13,9 +13,9 @@ Twitfollowers::Application.routes.draw do
 
   resources :categories
 
-  get "orgs/index"
+#  get "orgs/index"
 
-  get "list/index"
+#  get "list/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -44,6 +44,7 @@ match 'deal_mail' => 'dealmailer#deal_mail'
 match 'update_email' => 'login#update_email'
 match 'get_email' => 'login#get_email'
 match 'register' => 'login#register'
+match 'biz_around_me' => 'orgs#biz_around'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

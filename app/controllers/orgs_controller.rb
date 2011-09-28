@@ -80,4 +80,36 @@ class OrgsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def biz_around
+    #coords = params[:location]
+    lat = params[:lat].to_f
+    lng = params[:lng].to_f
+    
+    #lat = 37.306224
+    #lng = -122.030578
+    
+    @org = Org.find(:first, :conditions =>["latitude = ? and longitude = ?", lat, lng])
+    #dist = @org.distance_from([lat, lng])
+    radius = params[:radius]
+    rad = 2
+    if (radius != nil)
+      rad = to_f(radius).round(2)
+    end
+    #categories = params[:cats]
+    @orgs_nearby = nil
+    
+    begin
+      if @org == nil 
+        logger.info "The latitude is #{lat} and longitude #{lng}"
+        @orgs_nearby = Org.near([lat, lng], rad)
+      else
+        @orgs_nearby = @org.nearbys(rad)
+      end
+      render :json => @orgs_nearby
+    rescue => err
+      render :text => "The error while calling biz_around is #{err}"
+    end
+  end
+  
 end

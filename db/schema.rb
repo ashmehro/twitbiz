@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110725062731) do
+ActiveRecord::Schema.define(:version => 20110907061041) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20110725062731) do
     t.string   "facebook_link"
     t.string   "website"
     t.text     "notes"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "purchases", :force => true do |t|
